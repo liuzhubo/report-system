@@ -44,12 +44,60 @@ export default [
     component: './404',
   },
 
-  // 抖音订单表
   {
-    name:"抖音订单表",
+    name:"抖音订单",
     icon: 'table',
     path: 'dy-order',
     component: './Order'
-  }
+  },
+  {
+    name:"团长服务费",
+    icon: 'table',
+    path: 'service-charge',
+    component: './ServiceCharge'
+  },
+  {
+    name:"达人佣金",
+    icon: 'table',
+    path: 'commission',
+    component: './Commission'
+  },
+  {
+    name:"物料价格",
+    icon: 'table',
+    path: 'material',
+    component: './Material'
+  },
+  {
+    name:"邮资",
+    icon: 'table',
+    path: 'postage',
+    component: './Postage'
+  },
+  {
+    name:"聚水潭",
+    icon: 'table',
+    path: 'jst',
+    component: './JST'
+  },
+  {
+    name:"库存",
+    icon: 'table',
+    path: 'stock',
+    component: './Stock'
+  },
+  {
+    name:"运费单",
+    icon: 'table',
+    path: 'freight',
+    component: './Freight'
+  },
+  {
+    name:"日报",
+    icon: 'table',
+    path: 'daily',
+    component: './Daily'
+  },
+
   
 ];
