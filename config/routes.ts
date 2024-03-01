@@ -44,5 +44,12 @@ export default [
     component: './404',
   },
 
+  // 抖音订单表
+  {
+    name:"抖音订单表",
+    icon: 'table',
+    path: 'dy-order',
+    component: './Order'
+  }
   
 ];
