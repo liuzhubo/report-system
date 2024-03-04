@@ -1,173 +1,191 @@
-import {dyOrders } from '@/services/services';
-import { PlusOutlined } from '@ant-design/icons';
+import { dyOrders, importDyOrders } from '@/services/services';
+import { UploadOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import {
-  PageContainer,
-  ProTable,
-} from '@ant-design/pro-components';
-import { Button } from 'antd';
+import { PageContainer, ProTable } from '@ant-design/pro-components';
+import { Button, Upload, message, type UploadProps } from 'antd';
 import React, { useRef } from 'react';
 
 const TableList: React.FC = () => {
-
   const actionRef = useRef<ActionType>();
 
   const columns: ProColumns<API.RuleListItem>[] = [
     {
-        dataIndex: "index",
-        title: "序号",
-        width: 60,
-        fixed: "left",
-        hideInSearch: true,
-        renderText: (text: string, record: any, index: number) => `${index + 1}`,
-      },
-    {
-        title: "主订单编号",
-        width: 200,
-        dataIndex: 'parentOrderCode',
+      dataIndex: 'index',
+      title: '序号',
+      width: 60,
+      fixed: 'left',
+      hideInSearch: true,
+      renderText: (text: string, record: any, index: number) => `${index + 1}`,
     },
     {
-        title: "子订单编号",
-        width: 200,
-        dataIndex: 'childOrderCode',
+      title: '主订单编号',
+      width: 200,
+      dataIndex: 'parentOrderCode',
     },
     {
-        title: "选购商品",
-        width: 160,
-        dataIndex: 'goodsName',
+      title: '子订单编号',
+      width: 200,
+      dataIndex: 'childOrderCode',
     },
     {
-        title: "商品规格",
-        width: 160,
-        dataIndex: 'goodsSpec',
+      title: '选购商品',
+      width: 160,
+      dataIndex: 'goodsName',
+      hideInSearch: true,
     },
     {
-        title: "商品数量",        width: 80,
+      title: '商品规格',
+      width: 160,
+      dataIndex: 'goodsSpec',
+      hideInSearch: true,
+    },
+    {
+      title: '商品数量',
+      width: 80,
 
-        dataIndex: 'goodsNum',
+      dataIndex: 'goodsNum',
+      hideInSearch: true,
     },
     {
-        title: "商品ID",        width: 180,
+      title: '商品ID',
+      width: 180,
 
-        dataIndex: 'goodsId',
+      dataIndex: 'goodsId',
     },
     {
-        title: "商品编码",        width: 160,
+      title: '商品编码',
+      width: 160,
 
-        dataIndex: 'goodsCode',
+      dataIndex: 'goodsCode',
     },
     {
-        title: "订单应付金额",        width: 100,
+      title: '订单应付金额',
+      width: 100,
 
-        dataIndex: 'orderPayableAmount',
+      dataIndex: 'orderPayableAmount',
+      hideInSearch: true,
     },
     {
-        title: "流量体裁",        width: 80,
+      title: '流量体裁',
+      width: 80,
 
-        dataIndex: 'trafficGenres',
+      dataIndex: 'trafficGenres',
+      hideInSearch: true,
     },
     {
-        title: "平台实际承担优惠金额",        width: 160,
+      title: '平台实际承担优惠金额',
+      width: 160,
 
-        dataIndex: 'platDiscounts',
+      dataIndex: 'platDiscounts',
+      hideInSearch: true,
     },
     {
-        title: "省",        width: 100,
+      title: '省',
+      width: 100,
 
-        dataIndex: 'province',
+      dataIndex: 'province',
+      hideInSearch: true,
     },
     {
-        title: "市",        width: 100,
+      title: '市',
+      width: 100,
+      hideInSearch: true,
 
-        dataIndex: 'city',
+      dataIndex: 'city',
     },
     {
-        title: "区",        width: 100,
+      title: '区',
+      width: 100,
+      hideInSearch: true,
 
-        dataIndex: 'county',
+      dataIndex: 'county',
     },
     {
-        title: "街道",        width: 160,
+      title: '街道',
+      width: 160,
+      hideInSearch: true,
 
-        dataIndex: 'street',
+      dataIndex: 'street',
     },
     {
-        title: "是否修改过地址",        width: 120,
-        dataIndex: 'addrChangeFlag',
+      title: '是否修改过地址',
+      width: 120,
+      dataIndex: 'addrChangeFlag',
+      hideInSearch: true,
     },
     {
-        title: "订单提交时间",        width: 160,
-        valueType: 'dateTime',
-        dataIndex: 'orderCommitTime',
+      title: '订单提交时间',
+      width: 160,
+      valueType: 'date',
+      dataIndex: 'orderCommitTime',
     },
     {
-        title: "商家备注",        width: 160,
+      title: '商家备注',
+      width: 160,
+      hideInSearch: true,
 
-        dataIndex: 'merchantRemark',
+      dataIndex: 'merchantRemark',
     },
 
     {
-      title: "流量来源",        width: 100,
+      title: '流量来源',
+      width: 100,
 
       dataIndex: 'flowSource',
     },
     {
-        title: "订单状态",        width: 100,
+      title: '订单状态',
+      width: 100,
 
-        dataIndex: 'status',
-      },
-      {
-        title: "数据日期",        width: 160,
-        valueType: 'dateTime',
-        dataIndex: 'dataDate',
-      },
-      {
-        title: "创建人",        width: 100,
-
-        dataIndex: 'createUser',
-      },
-      {
-        title: "创建时间",        width: 160,
-        valueType: 'dateTime',
-        dataIndex: 'createTime',
-      },
-
-      {
-        title: "更新人",        width: 100,
-
-        dataIndex: 'updateUser',
-      },
-    {
-      title: "更新时间",        width: 160,
-      valueType: 'dateTime',
-      dataIndex: 'updateTime',
+      dataIndex: 'status',
     },
-
+    {
+      title: '数据日期',
+      width: 160,
+      valueType: 'date',
+      dataIndex: 'dataDate',
+    },
   ];
 
+  const props: UploadProps = {
+    name: 'file',
+    action: importDyOrders,
+    headers: {
+      authorization: 'multipart/form-data',
+    },
+    data: {
+      dataDate: '2022-01-01',
+    },
+    onChange(info) {
+      if (info.file.status !== 'uploading') {
+        console.log(info.file, info.fileList);
+      }
+      if (info.file.status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    // showUploadList: false,
+  };
   return (
     <PageContainer>
       <ProTable<API.RuleListItem, API.PageParams>
-        headerTitle={"抖音订单表"}
         actionRef={actionRef}
         rowKey="id"
         search={{
           labelWidth: 120,
         }}
         toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              console.log('导入')
-            }}
-          >
-            <PlusOutlined /> 导入
-          </Button>,
+          <Upload {...props} key="import">
+            <Button type="primary" icon={<UploadOutlined />}>
+              导入
+            </Button>
+          </Upload>,
         ]}
         request={dyOrders}
         columns={columns}
-        scroll={{ x: 1000}}
+        scroll={{ x: 1000 }}
       />
     </PageContainer>
   );

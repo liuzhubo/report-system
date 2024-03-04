@@ -102,7 +102,7 @@ const TableList: React.FC = () => {
 
   const columns: ProColumns<API.RuleListItem>[] = [
     {
-      title: "Rule name",
+      title: 'Rule name',
       dataIndex: 'name',
       tip: 'The rule name is the unique key',
       render: (dom, entity) => {
@@ -119,47 +119,46 @@ const TableList: React.FC = () => {
       },
     },
     {
-      title: "Rule name",
+      title: 'Rule name',
       dataIndex: 'desc',
       valueType: 'textarea',
     },
     {
-      title: "Rule name",
+      title: 'Rule name',
 
       dataIndex: 'callNo',
       sorter: true,
       hideInForm: true,
-      renderText: (val: string) =>
-        `${val}万`,
+      renderText: (val: string) => `${val}万`,
     },
     {
-      title: "Rule name",
+      title: 'Rule name',
       dataIndex: 'status',
       hideInForm: true,
       valueEnum: {
         0: {
-          text: "Rule name",
+          text: 'Rule name',
 
           status: 'Default',
         },
         1: {
-          text: "Rule name",
+          text: 'Rule name',
 
           status: 'Processing',
         },
         2: {
-          text: "Rule name",
+          text: 'Rule name',
 
           status: 'Success',
         },
         3: {
-          text: "Rule name",
+          text: 'Rule name',
           status: 'Error',
         },
       },
     },
     {
-      title: "Rule name",
+      title: 'Rule name',
 
       sorter: true,
       dataIndex: 'updatedAt',
@@ -170,17 +169,13 @@ const TableList: React.FC = () => {
           return false;
         }
         if (`${status}` === '3') {
-          return (
-            <Input
-              {...rest}
-            />
-          );
+          return <Input {...rest} />;
         }
         return defaultRender(item);
       },
     },
     {
-      title: "Rule name",
+      title: 'Rule name',
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
@@ -203,7 +198,7 @@ const TableList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<API.RuleListItem, API.PageParams>
-        headerTitle={"Enquiry form"}
+        headerTitle={'Enquiry form'}
         actionRef={actionRef}
         rowKey="key"
         search={{
@@ -232,14 +227,10 @@ const TableList: React.FC = () => {
         <FooterToolbar
           extra={
             <div>
-              Chosen{' '}
-              <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a>{' '}
-              项
-              &nbsp;&nbsp;
+              Chosen <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a> 项 &nbsp;&nbsp;
               <span>
-              Total number of service calls{' '}
-                {selectedRowsState.reduce((pre, item) => pre + item.callNo!, 0)}{' '}
-                万
+                Total number of service calls{' '}
+                {selectedRowsState.reduce((pre, item) => pre + item.callNo!, 0)} 万
               </span>
             </div>
           }
@@ -251,11 +242,9 @@ const TableList: React.FC = () => {
               actionRef.current?.reloadAndRest?.();
             }}
           >
-Batch deletion
+            Batch deletion
           </Button>
-          <Button type="primary">
-          Batch approval
-          </Button>
+          <Button type="primary">Batch approval</Button>
         </FooterToolbar>
       )}
       <ModalForm
@@ -277,9 +266,7 @@ Batch deletion
           rules={[
             {
               required: true,
-              message: (
-    "Rule name is required"
-              ),
+              message: 'Rule name is required',
             },
           ]}
           width="md"

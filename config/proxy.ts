@@ -30,7 +30,7 @@ export default {
     '/api': {
       target: 'http://10.124.25.112:8888',
       changeOrigin: true,
-      pathRewrite: { '^/api' : '' },
+      pathRewrite: { '^/api': '' },
     },
   },
   test: {

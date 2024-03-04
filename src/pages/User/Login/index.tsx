@@ -1,16 +1,9 @@
 import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
-import {
-  LockOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
-import {
-  LoginForm,
-  ProFormCheckbox,
-  ProFormText,
-} from '@ant-design/pro-components';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
-import {  history, useModel, Helmet } from '@umijs/max';
+import { history, useModel, Helmet } from '@umijs/max';
 import { Alert, message, Tabs } from 'antd';
 import Settings from '../../../../config/defaultSettings';
 import React, { useState } from 'react';
@@ -84,9 +77,7 @@ const Login: React.FC = () => {
   return (
     <div className={containerClassName}>
       <Helmet>
-        <title>
-        登录页 - {Settings.title}
-        </title>
+        <title>登录页 - {Settings.title}</title>
       </Helmet>
       <div
         style={{
@@ -101,7 +92,7 @@ const Login: React.FC = () => {
           }}
           logo={<img alt="logo" src="/logo.svg" />}
           title="Ant Design"
-          subTitle={"subtitle"}
+          subTitle={'subtitle'}
           initialValues={{
             autoLogin: true,
           }}
@@ -116,15 +107,13 @@ const Login: React.FC = () => {
             items={[
               {
                 key: 'account',
-                label: "账号密码登录",
-              }
+                label: '账号密码登录',
+              },
             ]}
           />
 
           {status === 'error' && loginType === 'account' && (
-            <LoginMessage
-              content={"账户或密码错误(admin/ant.design)"}
-            />
+            <LoginMessage content={'账户或密码错误(admin/ant.design)'} />
           )}
           {type === 'account' && (
             <>
@@ -134,11 +123,11 @@ const Login: React.FC = () => {
                   size: 'large',
                   prefix: <UserOutlined />,
                 }}
-                placeholder={"用户名: admin or user"}
+                placeholder={'用户名: admin or user'}
                 rules={[
                   {
                     required: true,
-                    message: "请输入用户名",
+                    message: '请输入用户名',
                   },
                 ]}
               />
@@ -148,11 +137,11 @@ const Login: React.FC = () => {
                   size: 'large',
                   prefix: <LockOutlined />,
                 }}
-                placeholder={"密码: ant.design"}
+                placeholder={'密码: ant.design'}
                 rules={[
                   {
                     required: true,
-                    message: "请输入密码！",
+                    message: '请输入密码！',
                   },
                 ]}
               />
@@ -164,7 +153,7 @@ const Login: React.FC = () => {
             }}
           >
             <ProFormCheckbox noStyle name="autoLogin">
-            自动登录
+              自动登录
             </ProFormCheckbox>
             <a
               style={{

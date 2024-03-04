@@ -1,154 +1,179 @@
-import {dyOrders } from '@/services/services';
+import { dailyReports } from '@/services/services';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import {
-  PageContainer,
-  ProTable,
-} from '@ant-design/pro-components';
+import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { Button } from 'antd';
 import React, { useRef } from 'react';
 
 const TableList: React.FC = () => {
-
   const actionRef = useRef<ActionType>();
 
   const columns: ProColumns<API.RuleListItem>[] = [
     {
-        dataIndex: "index",
-        title: "序号",
-        width: 60,
-        fixed: "left",
-        hideInSearch: true,
-        renderText: (text: string, record: any, index: number) => `${index + 1}`,
-      },
-    {
-        title: "主订单编号",
-        width: 200,
-        dataIndex: 'parentOrderCode',
+      dataIndex: 'index',
+      title: '序号',
+      width: 60,
+      fixed: 'left',
+      hideInSearch: true,
+      renderText: (text: string, record: any, index: number) => `${index + 1}`,
     },
     {
-        title: "子订单编号",
-        width: 200,
-        dataIndex: 'childOrderCode',
+      title: '主订单编号',
+      width: 200,
+      dataIndex: 'parentOrderCode',
     },
     {
-        title: "选购商品",
-        width: 160,
-        dataIndex: 'goodsName',
+      title: '子订单编号',
+      width: 200,
+      dataIndex: 'childOrderCode',
     },
     {
-        title: "商品规格",
-        width: 160,
-        dataIndex: 'goodsSpec',
+      title: '状态',
+      width: 160,
+      dataIndex: 'status',
     },
     {
-        title: "商品数量",        width: 80,
+      title: '发货仓',
+      width: 160,
+      dataIndex: 'deliveryWarehouse',
+    },
+    {
+      title: '快递公司',
+      width: 80,
 
-        dataIndex: 'goodsNum',
+      dataIndex: 'expressCompany',
     },
     {
-        title: "商品ID",        width: 180,
+      title: '店铺名称',
+      width: 180,
 
-        dataIndex: 'goodsId',
+      dataIndex: 'storeName',
     },
     {
-        title: "商品编码",        width: 160,
+      title: '交易日期',
+      width: 160,
 
-        dataIndex: 'goodsCode',
+      dataIndex: 'orderCommitTime',
     },
     {
-        title: "订单应付金额",        width: 100,
+      title: '商品ID',
+      width: 100,
 
-        dataIndex: 'orderPayableAmount',
+      dataIndex: 'goodsId',
     },
     {
-        title: "流量体裁",        width: 80,
+      title: '商品编码',
+      width: 80,
 
-        dataIndex: 'trafficGenres',
+      dataIndex: 'goodsCode',
     },
     {
-        title: "平台实际承担优惠金额",        width: 160,
+      title: '商品数量',
+      width: 160,
 
-        dataIndex: 'platDiscounts',
+      dataIndex: 'goodsNum',
     },
     {
-        title: "省",        width: 100,
+      title: '订单应付金额',
+      width: 100,
 
-        dataIndex: 'province',
+      dataIndex: 'orderPayableAmount',
     },
     {
-        title: "市",        width: 100,
+      title: '实际平台补贴',
+      width: 100,
 
-        dataIndex: 'city',
+      dataIndex: 'platDiscounts',
     },
     {
-        title: "区",        width: 100,
+      title: '流量体裁',
+      width: 100,
 
-        dataIndex: 'county',
+      dataIndex: 'trafficGenres',
     },
     {
-        title: "街道",        width: 160,
+      title: '连接商品编码',
+      width: 160,
 
-        dataIndex: 'street',
+      dataIndex: 'costGoodsCode',
     },
     {
-        title: "是否修改过地址",        width: 120,
-        dataIndex: 'addrChangeFlag',
+      title: '最小单位商品数量',
+      width: 120,
+      dataIndex: 'orderGoodsNum',
     },
     {
-        title: "订单提交时间",        width: 160,
-        valueType: 'dateTime',
-        dataIndex: 'orderCommitTime',
+      title: 'actualSalesAmount',
+      width: 160,
+      dataIndex: '实销',
     },
     {
-        title: "商家备注",        width: 160,
+      title: '平台补贴扣费2%',
+      width: 160,
 
-        dataIndex: 'merchantRemark',
-    },
-
-    {
-      title: "流量来源",        width: 100,
-
-      dataIndex: 'flowSource',
-    },
-    {
-        title: "订单状态",        width: 100,
-
-        dataIndex: 'status',
-      },
-      {
-        title: "数据日期",        width: 160,
-        valueType: 'dateTime',
-        dataIndex: 'dataDate',
-      },
-      {
-        title: "创建人",        width: 100,
-
-        dataIndex: 'createUser',
-      },
-      {
-        title: "创建时间",        width: 160,
-        valueType: 'dateTime',
-        dataIndex: 'createTime',
-      },
-
-      {
-        title: "更新人",        width: 100,
-
-        dataIndex: 'updateUser',
-      },
-    {
-      title: "更新时间",        width: 160,
-      valueType: 'dateTime',
-      dataIndex: 'updateTime',
+      dataIndex: 'platSubsidyDeduction',
     },
 
+    {
+      title: '平台服务费',
+      width: 100,
+
+      dataIndex: 'platServFee',
+    },
+    {
+      title: '达人佣金',
+      width: 100,
+
+      dataIndex: 'drFee',
+    },
+    {
+      title: '团长服务费',
+      width: 160,
+      dataIndex: 'leaderServFee',
+    },
+    {
+      title: '成本',
+      width: 100,
+
+      dataIndex: 'cost',
+    },
+    {
+      title: '操作费',
+      width: 160,
+      dataIndex: 'handlingFee',
+    },
+
+    {
+      title: '邮资',
+      width: 100,
+
+      dataIndex: 'postage',
+    },
+    {
+      title: '利润',
+      width: 160,
+      dataIndex: 'profit',
+    },
+    {
+      title: '数据日期',
+      width: 160,
+      dataIndex: 'dataDate',
+    },
+    {
+      title: '创建人',
+      width: 160,
+      dataIndex: 'createUser',
+    },
+    {
+      title: '创建时间',
+      width: 160,
+      dataIndex: 'createTime',
+    },
   ];
 
   return (
     <PageContainer>
       <ProTable<API.RuleListItem, API.PageParams>
-        headerTitle={"抖音订单表"}
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -159,15 +184,15 @@ const TableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              console.log('导入')
+              console.log('导入');
             }}
           >
             <PlusOutlined /> 导入
           </Button>,
         ]}
-        request={dyOrders}
+        request={dailyReports}
         columns={columns}
-        scroll={{ x: 1000}}
+        scroll={{ x: 1000 }}
       />
     </PageContainer>
   );

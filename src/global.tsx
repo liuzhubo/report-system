@@ -9,7 +9,7 @@ const clearCache = () => {
   if (window.caches) {
     caches
       .keys()
-        .then((keys) => {
+      .then((keys) => {
         keys.forEach((key) => {
           caches.delete(key);
         });
@@ -22,7 +22,7 @@ const clearCache = () => {
 if (pwa) {
   // Notify user if offline now
   window.addEventListener('sw.offline', () => {
-    message.warning("app.pwa.offline");
+    message.warning('app.pwa.offline');
   });
 
   // Pop up a prompt on the page asking the user if they want to use the latest version
@@ -61,12 +61,12 @@ if (pwa) {
           reloadSW();
         }}
       >
-        {"app.pwa.serviceworker.updated.ok"}
+        {'app.pwa.serviceworker.updated.ok'}
       </Button>
     );
     notification.open({
-      message: "app.pwa.serviceworker.updated",
-      description: "app.pwa.serviceworker.updated.hint",
+      message: 'app.pwa.serviceworker.updated',
+      description: 'app.pwa.serviceworker.updated.hint',
       btn,
       key,
       onClose: async () => null,

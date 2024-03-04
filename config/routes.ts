@@ -45,59 +45,57 @@ export default [
   },
 
   {
-    name:"抖音订单",
+    name: '抖音订单',
     icon: 'table',
     path: 'dy-order',
-    component: './Order'
+    component: './Order',
   },
   {
-    name:"团长服务费",
+    name: '团长服务费',
     icon: 'table',
     path: 'service-charge',
-    component: './ServiceCharge'
+    component: './ServiceCharge',
   },
   {
-    name:"达人佣金",
+    name: '达人佣金',
     icon: 'table',
     path: 'commission',
-    component: './Commission'
+    component: './Commission',
   },
   {
-    name:"物料价格",
+    name: '物料价格',
     icon: 'table',
     path: 'material',
-    component: './Material'
+    component: './Material',
   },
   {
-    name:"邮资",
+    name: '邮资',
     icon: 'table',
     path: 'postage',
-    component: './Postage'
+    component: './Postage',
   },
   {
-    name:"聚水潭",
+    name: '聚水潭',
     icon: 'table',
     path: 'jst',
-    component: './JST'
+    component: './JST',
   },
   {
-    name:"库存",
+    name: '库存',
     icon: 'table',
     path: 'stock',
-    component: './Stock'
+    component: './Stock',
   },
   {
-    name:"运费单",
+    name: '运费单',
     icon: 'table',
     path: 'freight',
-    component: './Freight'
+    component: './Freight',
   },
   {
-    name:"日报",
+    name: '日报',
     icon: 'table',
     path: 'daily',
-    component: './Daily'
+    component: './Daily',
   },
-
-  
 ];
