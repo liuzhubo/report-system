@@ -1,13 +1,25 @@
 import { serviceChange, importServiceCharge } from '@/services/services';
 import { UploadOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import { PageContainer, ProTable } from '@ant-design/pro-components';
-import { Button, Upload, message, type UploadProps } from 'antd';
-import React, { useRef } from 'react';
+import {
+  PageContainer,
+  ProTable,
+  ModalForm,
+  ProFormDatePicker,
+  ProFormText,
+  ProFormUploadButton,
+  ProFormDependency,
+  ProForm,
+} from '@ant-design/pro-components';
+import { Button, message, type UploadProps } from 'antd';
+import React, { useRef, useState } from 'react';
+import 'moment/locale/zh-cn';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
 
+  // 导入窗口弹窗
+  const [createModalOpen, handleModalOpen] = useState<boolean>(false);
   const columns: ProColumns<API.RuleListItem>[] = [
     {
       dataIndex: 'index',
@@ -79,10 +91,7 @@ const TableList: React.FC = () => {
     headers: {
       authorization: 'multipart/form-data',
     },
-    data: {
-      dataDate: '2022-01-01',
-      storeName: '抖音梓航',
-    },
+
     onChange(info) {
       if (info.file.status === 'done') {
         message.success(`${info.file.name} 上传成功`);
@@ -90,8 +99,8 @@ const TableList: React.FC = () => {
         message.error(`${info.file.name} 上传失败`);
       }
     },
-    // showUploadList: false,
   };
+  console.log(props);
   return (
     <PageContainer>
       <ProTable<API.RuleListItem, API.PageParams>
@@ -101,16 +110,93 @@ const TableList: React.FC = () => {
           labelWidth: 120,
         }}
         toolBarRender={() => [
-          <Upload {...props} key="import">
-            <Button type="primary" icon={<UploadOutlined />}>
-              导入
-            </Button>
-          </Upload>,
+          // <Upload {...props} key="import">
+          //   <Button type="primary" icon={<UploadOutlined />}>
+          //     导入
+          //   </Button>
+          // </Upload>,
+          <Button
+            type="primary"
+            icon={<UploadOutlined />}
+            key="import"
+            onClick={() => {
+              handleModalOpen(true);
+            }}
+          >
+            导入
+          </Button>,
         ]}
         request={serviceChange}
         columns={columns}
         scroll={{ x: 1000 }}
       />
+      <ModalForm
+        title={'导入团长服务费'}
+        width="400px"
+        open={createModalOpen}
+        onOpenChange={handleModalOpen}
+        onFinish={async (values) => {
+          console.log(values);
+          console.log('finish');
+        }}
+        modalProps={{ destroyOnClose: true }}
+      >
+        <ProForm.Group>
+          <ProFormText
+            rules={[
+              {
+                required: true,
+                message: '请填写店铺名称',
+              },
+            ]}
+            width="md"
+            name="storeName"
+            label="店铺名称"
+            placeholder={'请输入店铺名称'}
+          />
+          <ProFormDatePicker
+            name="dataDate"
+            width="md"
+            label="数据日期"
+            rules={[
+              {
+                required: true,
+                message: '请选择数据日期',
+              },
+            ]}
+          />
+          <ProFormDependency name={['storeName, dataDate']}>
+            {({ storeName, dataDate }) => {
+              console.log(storeName);
+              return (
+                <ProFormUploadButton
+                  fieldProps={{
+                    ...props,
+                    data: {
+                      storeName,
+                      dataDate,
+                    },
+                  }}
+                  buttonProps={{ type: 'primary' }}
+                  title="单击导入"
+                />
+              );
+            }}
+          </ProFormDependency>
+        </ProForm.Group>
+        {/* <ProFormText
+          rules={[
+            {
+              required: true,
+              message: 'Rule name is required',
+            },
+          ]}
+          width="md"
+          name="name"
+        />
+        
+        <ProFormTextArea width="md" name="desc" /> */}
+      </ModalForm>
     </PageContainer>
   );
 };
