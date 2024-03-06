@@ -22,21 +22,21 @@ export default [
       },
     ],
   },
-  {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
-    component: './Welcome',
-  },
-  {
-    name: 'template',
-    icon: 'table',
-    path: '/list',
-    component: './TemplateTableList',
-  },
+  // {
+  //   path: '/welcome',
+  //   name: 'welcome',
+  //   icon: 'smile',
+  //   component: './Welcome',
+  // },
+  // {
+  //   name: 'template',
+  //   icon: 'table',
+  //   path: '/list',
+  //   component: './TemplateTableList',
+  // },
   {
     path: '/',
-    redirect: '/welcome',
+    redirect: '/dy-order',
   },
   {
     path: '*',
@@ -61,12 +61,6 @@ export default [
     icon: 'table',
     path: 'commission',
     component: './Commission',
-  },
-  {
-    name: '物料价格',
-    icon: 'table',
-    path: 'material',
-    component: './Material',
   },
   {
     name: '邮资',

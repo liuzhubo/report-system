@@ -1,12 +1,23 @@
 import { commissionPage, importCommission } from '@/services/services';
 import { UploadOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import { PageContainer, ProTable } from '@ant-design/pro-components';
-import { Button, Upload, message, type UploadProps } from 'antd';
-import React, { useRef } from 'react';
+import {
+  PageContainer,
+  ProTable,
+  ModalForm,
+  ProFormDatePicker,
+  ProFormText,
+  ProFormUploadButton,
+  ProFormDependency,
+  ProForm,
+} from '@ant-design/pro-components';
+import { Button, message, type UploadProps } from 'antd';
+import React, { useRef, useState } from 'react';
+import dayjs from 'dayjs'
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
+  const [createModalOpen, handleModalOpen] = useState<boolean>(false);
 
   const columns: ProColumns<API.RuleListItem>[] = [
     {
@@ -69,28 +80,12 @@ const TableList: React.FC = () => {
       dataIndex: 'dataDate',
     },
   ];
-
   const props: UploadProps = {
     name: 'file',
     action: importCommission,
     headers: {
       authorization: 'multipart/form-data',
     },
-    data: {
-      dataDate: '2022-01-01',
-      storeName: '抖音梓航',
-    },
-    onChange(info) {
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-    // showUploadList: false,
   };
   return (
     <PageContainer>
@@ -101,16 +96,78 @@ const TableList: React.FC = () => {
           labelWidth: 120,
         }}
         toolBarRender={() => [
-          <Upload {...props} key="import">
-            <Button type="primary" icon={<UploadOutlined />}>
-              导入
-            </Button>
-          </Upload>,
+          <Button
+            type="primary"
+            icon={<UploadOutlined />}
+            key="import"
+            onClick={() => {
+              handleModalOpen(true);
+            }}
+          >
+            导入
+          </Button>,
         ]}
         request={commissionPage}
         columns={columns}
         scroll={{ x: 1000 }}
       />
+            <ModalForm
+        title={'导入团长服务费'}
+        width="400px"
+        open={createModalOpen}
+        onOpenChange={handleModalOpen}
+        modalProps={{ destroyOnClose: true }}
+      >
+        <ProForm.Group>
+          <ProFormText
+            rules={[
+              {
+                required: true,
+                message: '请填写店铺名称',
+              },
+            ]}
+            width="md"
+            name="storeName"
+            label="店铺名称"
+            placeholder={'请输入店铺名称'}
+          />
+          <ProFormDatePicker
+            name="dataDate"
+            width="md"
+            label="数据日期"
+            rules={[
+              {
+                required: true,
+                message: '请选择数据日期',
+              },
+            ]}
+          />
+          <ProFormDependency name={['storeName', 'dataDate']}>
+            {({ storeName, dataDate }) => (
+              <ProFormUploadButton
+                fieldProps={{
+                  ...props,
+                  data: {
+                    storeName,
+                    dataDate: dayjs(dataDate).format('YYYY-MM-DD'),
+                  },
+                  onChange(info) {
+                    if (info.file.status === 'done') {
+                      message.success(`${info.file.name} 上传成功`);
+                      actionRef?.current?.reload();
+                    } else if (info.file.status === 'error') {
+                      message.error(`${info.file.name} 上传失败`);
+                    }
+                  },
+                }}
+                buttonProps={{ type: 'primary' }}
+                disabled={!storeName || !dataDate}
+                title="单击导入"
+              />
+            )}
+          </ProFormDependency>
+        </ProForm.Group>
+      </ModalForm>
     </PageContainer>
   );
 };

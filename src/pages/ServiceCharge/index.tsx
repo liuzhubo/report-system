@@ -14,6 +14,7 @@ import {
 import { Button, message, type UploadProps } from 'antd';
 import React, { useRef, useState } from 'react';
 import 'moment/locale/zh-cn';
+import dayjs from 'dayjs'
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -91,16 +92,7 @@ const TableList: React.FC = () => {
     headers: {
       authorization: 'multipart/form-data',
     },
-
-    onChange(info) {
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} 上传成功`);
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} 上传失败`);
-      }
-    },
   };
-  console.log(props);
   return (
     <PageContainer>
       <ProTable<API.RuleListItem, API.PageParams>
@@ -110,11 +102,6 @@ const TableList: React.FC = () => {
           labelWidth: 120,
         }}
         toolBarRender={() => [
-          // <Upload {...props} key="import">
-          //   <Button type="primary" icon={<UploadOutlined />}>
-          //     导入
-          //   </Button>
-          // </Upload>,
           <Button
             type="primary"
             icon={<UploadOutlined />}
@@ -135,10 +122,6 @@ const TableList: React.FC = () => {
         width="400px"
         open={createModalOpen}
         onOpenChange={handleModalOpen}
-        onFinish={async (values) => {
-          console.log(values);
-          console.log('finish');
-        }}
         modalProps={{ destroyOnClose: true }}
       >
         <ProForm.Group>
@@ -165,37 +148,31 @@ const TableList: React.FC = () => {
               },
             ]}
           />
-          <ProFormDependency name={['storeName, dataDate']}>
-            {({ storeName, dataDate }) => {
-              console.log(storeName);
-              return (
-                <ProFormUploadButton
-                  fieldProps={{
-                    ...props,
-                    data: {
-                      storeName,
-                      dataDate,
-                    },
-                  }}
-                  buttonProps={{ type: 'primary' }}
-                  title="单击导入"
-                />
-              );
-            }}
+          <ProFormDependency name={['storeName', 'dataDate']}>
+            {({ storeName, dataDate }) => (
+              <ProFormUploadButton
+                fieldProps={{
+                  ...props,
+                  data: {
+                    storeName,
+                    dataDate: dayjs(dataDate).format('YYYY-MM-DD'),
+                  },
+                  onChange(info) {
+                    if (info.file.status === 'done') {
+                      message.success(`${info.file.name} 上传成功`);
+                      actionRef?.current?.reload();
+                    } else if (info.file.status === 'error') {
+                      message.error(`${info.file.name} 上传失败`);
+                    }
+                  },
+                }}
+                buttonProps={{ type: 'primary' }}
+                disabled={!storeName || !dataDate}
+                title="单击导入"
+              />
+            )}
           </ProFormDependency>
         </ProForm.Group>
-        {/* <ProFormText
-          rules={[
-            {
-              required: true,
-              message: 'Rule name is required',
-            },
-          ]}
-          width="md"
-          name="name"
-        />
-        
-        <ProFormTextArea width="md" name="desc" /> */}
       </ModalForm>
     </PageContainer>
   );
