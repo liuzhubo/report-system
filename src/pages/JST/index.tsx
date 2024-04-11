@@ -30,63 +30,63 @@ const TableList: React.FC = () => {
       renderText: (text: string, record: any, index: number) => `${index + 1}`,
     },
     {
-      title: '主订单编号',
+      title: '内部订单号',
+      width: 200,
+      dataIndex: 'internalOrderCode',
+    },
+    {
+      title: '线上订单号',
       width: 200,
       dataIndex: 'parentOrderCode',
     },
     {
-      title: '子订单编号',
-      width: 200,
-      dataIndex: 'childOrderCode',
-    },
-    {
-      title: '选购商品',
+      title: '店铺名称',
       width: 160,
-      dataIndex: 'goodsName',
+      dataIndex: 'storeName',
     },
     {
-      title: '商品规格',
+      title: '下单时间',
       width: 160,
-      dataIndex: 'goodsSpec',
+      dataIndex: 'orderTime',
     },
     {
-      title: '商品数量',
+      title: '发货日期',
       width: 80,
 
-      dataIndex: 'goodsNum',
+      dataIndex: 'deliveryTime',
     },
     {
-      title: '商品ID',
+      title: '已付金额',
       width: 180,
-
-      dataIndex: 'goodsId',
+      dataIndex: 'amountPaid',
     },
     {
-      title: '商品编码',
+      title: '折扣金额',
       width: 160,
-
-      dataIndex: 'goodsCode',
+      dataIndex: 'discountAmount',
     },
     {
-      title: '订单应付金额',
+      title: '分销结算金额',
       width: 100,
-
-      dataIndex: 'orderPayableAmount',
+      dataIndex: 'distributionSettlementAmount',
     },
     {
-      title: '流量体裁',
+      title: '状态',
       width: 80,
-
-      dataIndex: 'trafficGenres',
+      dataIndex: 'status',
     },
     {
-      title: '平台实际承担优惠金额',
+      title: '快递公司',
       width: 160,
-
-      dataIndex: 'platDiscounts',
+      dataIndex: 'expressCompany',
     },
     {
-      title: '省',
+      title: '快递单号',
+      width: 100,
+      dataIndex: 'expressCode',
+    },
+    {
+      title: '省份',
       width: 100,
 
       dataIndex: 'province',
@@ -110,65 +110,61 @@ const TableList: React.FC = () => {
       dataIndex: 'street',
     },
     {
-      title: '是否修改过地址',
+      title: '订单类型',
       width: 120,
-      dataIndex: 'addrChangeFlag',
+      dataIndex: 'orderType',
     },
     {
-      title: '订单提交时间',
+      title: '分销商',
       width: 160,
-      valueType: 'dateTime',
-      dataIndex: 'orderCommitTime',
+      dataIndex: 'distributor',
     },
     {
-      title: '商家备注',
+      title: '订单商品重量',
       width: 160,
-
-      dataIndex: 'merchantRemark',
+      dataIndex: 'orderGoodsWeight',
     },
 
     {
-      title: '流量来源',
+      title: '发货仓',
       width: 100,
-
-      dataIndex: 'flowSource',
+      dataIndex: 'deliveryWarehouse',
     },
     {
-      title: '订单状态',
+      title: '商品总成交金额',
       width: 100,
+      dataIndex: 'goodsTotalAmount',
+    },
+    {
+      title: '商品编码',
+      width: 160,
+      dataIndex: 'goodsCode',
+    },
+    {
+      title: '商品名称',
+      width: 100,
+      dataIndex: 'goodsName',
+    },
+    {
+      title: '数量',
+      width: 160,
+      dataIndex: 'goodsQuantity',
+    },
 
-      dataIndex: 'status',
+    {
+      title: '商品金额',
+      width: 100,
+      dataIndex: 'goodsAmount',
+    },
+    {
+      title: '成本价',
+      width: 160,
+      dataIndex: 'costPrice',
     },
     {
       title: '数据日期',
       width: 160,
-      valueType: 'dateTime',
       dataIndex: 'dataDate',
-    },
-    {
-      title: '创建人',
-      width: 100,
-
-      dataIndex: 'createUser',
-    },
-    {
-      title: '创建时间',
-      width: 160,
-      valueType: 'dateTime',
-      dataIndex: 'createTime',
-    },
-
-    {
-      title: '更新人',
-      width: 100,
-
-      dataIndex: 'updateUser',
-    },
-    {
-      title: '更新时间',
-      width: 160,
-      valueType: 'dateTime',
-      dataIndex: 'updateTime',
     },
   ];
   const props: UploadProps = {
@@ -203,7 +199,7 @@ const TableList: React.FC = () => {
         scroll={{ x: 1000 }}
       />
             <ModalForm
-        title={'导入团长服务费'}
+        title={'导入聚水潭数据'}
         width="400px"
         open={createModalOpen}
         onOpenChange={handleModalOpen}

@@ -1,4 +1,4 @@
-import { postagePage, importServiceCharge } from '@/services/services';
+import { postagePage, importPostage } from '@/services/services';
 import { UploadOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import {
@@ -30,150 +30,85 @@ const TableList: React.FC = () => {
       renderText: (text: string, record: any, index: number) => `${index + 1}`,
     },
     {
-      title: '主订单编号',
+      title: '发货仓',
       width: 200,
-      dataIndex: 'parentOrderCode',
+      dataIndex: 'deliveryWarehouse',
     },
     {
-      title: '子订单编号',
+      title: '快递公司',
       width: 200,
-      dataIndex: 'childOrderCode',
+      dataIndex: 'expressCompany',
     },
     {
-      title: '选购商品',
+      title: '省份',
       width: 160,
-      dataIndex: 'goodsName',
-    },
-    {
-      title: '商品规格',
-      width: 160,
-      dataIndex: 'goodsSpec',
-    },
-    {
-      title: '商品数量',
-      width: 80,
-
-      dataIndex: 'goodsNum',
-    },
-    {
-      title: '商品ID',
-      width: 180,
-
-      dataIndex: 'goodsId',
-    },
-    {
-      title: '商品编码',
-      width: 160,
-
-      dataIndex: 'goodsCode',
-    },
-    {
-      title: '订单应付金额',
-      width: 100,
-
-      dataIndex: 'orderPayableAmount',
-    },
-    {
-      title: '流量体裁',
-      width: 80,
-
-      dataIndex: 'trafficGenres',
-    },
-    {
-      title: '平台实际承担优惠金额',
-      width: 160,
-
-      dataIndex: 'platDiscounts',
-    },
-    {
-      title: '省',
-      width: 100,
-
       dataIndex: 'province',
     },
     {
-      title: '市',
-      width: 100,
-
+      title: '城市',
+      width: 160,
       dataIndex: 'city',
     },
     {
-      title: '区',
-      width: 100,
-
-      dataIndex: 'county',
+      title: '分区',
+      width: 80,
+      dataIndex: 'type',
     },
     {
-      title: '街道',
+      title: '重量上限',
+      width: 180,
+      dataIndex: 'highWeight',
+    },
+    {
+      title: '重量下限',
+      width: 160,
+      dataIndex: 'lowWeight',
+    },
+    {
+      title: '费用',
+      width: 100,
+      dataIndex: 'fee',
+    },
+    {
+      title: '首重重量',
+      width: 80,
+      dataIndex: 'firstWeight',
+    },
+    {
+      title: '非首重单价',
+      width: 160,
+      dataIndex: 'nonFirstPrice',
+    },
+    {
+      title: '是否含物料',
+      width: 100,
+      dataIndex: 'materialFlag',
+    },
+    {
+      title: '操作费',
+      width: 100,
+      dataIndex: 'handlingFee',
+    },
+    {
+      title: '状态',
+      width: 100,
+      dataIndex: 'effectInvalidStatus',
+    },
+    {
+      title: '生效日期',
       width: 160,
 
-      dataIndex: 'street',
+      dataIndex: 'effectDate',
     },
     {
-      title: '是否修改过地址',
+      title: '失效日期',
       width: 120,
-      dataIndex: 'addrChangeFlag',
-    },
-    {
-      title: '订单提交时间',
-      width: 160,
-      valueType: 'dateTime',
-      dataIndex: 'orderCommitTime',
-    },
-    {
-      title: '商家备注',
-      width: 160,
-
-      dataIndex: 'merchantRemark',
-    },
-
-    {
-      title: '流量来源',
-      width: 100,
-
-      dataIndex: 'flowSource',
-    },
-    {
-      title: '订单状态',
-      width: 100,
-
-      dataIndex: 'status',
-    },
-    {
-      title: '数据日期',
-      width: 160,
-      valueType: 'dateTime',
-      dataIndex: 'dataDate',
-    },
-    {
-      title: '创建人',
-      width: 100,
-
-      dataIndex: 'createUser',
-    },
-    {
-      title: '创建时间',
-      width: 160,
-      valueType: 'dateTime',
-      dataIndex: 'createTime',
-    },
-
-    {
-      title: '更新人',
-      width: 100,
-
-      dataIndex: 'updateUser',
-    },
-    {
-      title: '更新时间',
-      width: 160,
-      valueType: 'dateTime',
-      dataIndex: 'updateTime',
+      dataIndex: 'invalidDate',
     },
   ];
   const props: UploadProps = {
     name: 'file',
-    action: importServiceCharge,
+    action: importPostage,
     headers: {
       authorization: 'multipart/form-data',
     },
@@ -203,7 +138,7 @@ const TableList: React.FC = () => {
         scroll={{ x: 1000 }}
       />
             <ModalForm
-        title={'导入团长服务费'}
+        title={'导入游资'}
         width="400px"
         open={createModalOpen}
         onOpenChange={handleModalOpen}

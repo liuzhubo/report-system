@@ -63,7 +63,7 @@ export default [
     component: './Commission',
   },
   {
-    name: '邮资',
+    name: '邮资规则',
     icon: 'table',
     path: 'postage',
     component: './Postage',
