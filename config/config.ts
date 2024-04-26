@@ -76,9 +76,9 @@ export default defineConfig({
    * @name layout 插件
    * @doc https://umijs.org/docs/max/layout-menu
    */
-  title: 'Ant Design Pro',
+  title: '报表系统',
   layout: {
-    name: 'Ant Design Pro',
+    name: '报表系统',
     logo: 'https://preview.pro.ant.design/static/logo.f0355d39.svg',
     // copy from pro site
     navTheme: 'dark',
@@ -87,7 +87,7 @@ export default defineConfig({
     contentWidth: 'Fluid',
     fixedHeader: false,
     fixSiderbar: false,
-    title: 'Ant Design Pro',
+    title: '报表系统',
     pwa: false,
     iconfontUrl: '',
   },

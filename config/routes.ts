@@ -68,11 +68,17 @@ export default [
     path: 'postage',
     component: './Postage',
   },
+  // {
+  //   name: '聚水潭',
+  //   icon: 'table',
+  //   path: 'jst',
+  //   component: './JST',
+  // },
   {
-    name: '聚水潭',
+    name: '旺店通',
     icon: 'table',
-    path: 'jst',
-    component: './JST',
+    path: 'wdt',
+    component: './WDT',
   },
   {
     name: '库存',
@@ -91,5 +97,11 @@ export default [
     icon: 'table',
     path: 'daily',
     component: './Daily',
+  },
+  {
+    name: '日报统计表',
+    icon: 'table',
+    path: 'dailyStatistics',
+    component: './DailyStatistics',
   },
 ];

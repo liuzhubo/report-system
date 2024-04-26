@@ -14,7 +14,7 @@ import {
 import { Button, message, type UploadProps } from 'antd';
 import React, { useRef, useState } from 'react';
 import 'moment/locale/zh-cn';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -198,7 +198,7 @@ const TableList: React.FC = () => {
         columns={columns}
         scroll={{ x: 1000 }}
       />
-            <ModalForm
+      <ModalForm
         title={'导入聚水潭数据'}
         width="400px"
         open={createModalOpen}

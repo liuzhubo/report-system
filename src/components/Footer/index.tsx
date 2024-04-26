@@ -13,8 +13,8 @@ const Footer: React.FC = () => {
       copyright={`${currentYear} xxx出品`}
       links={[
         {
-          key: 'Ant Design Pro',
-          title: 'Ant Design Pro',
+          key: '报表系统',
+          title: '报表系统',
           href: 'https://pro.ant.design',
           blankTarget: true,
         },

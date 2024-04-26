@@ -1,4 +1,4 @@
-import { dailyReports, createDailyRequest } from '@/services/services';
+import { wdtPage, importWdt } from '@/services/services';
 import { UploadOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import {
@@ -6,12 +6,15 @@ import {
   ProTable,
   ModalForm,
   ProFormDatePicker,
+  ProFormUploadButton,
+  ProFormDependency,
   ProForm,
 } from '@ant-design/pro-components';
-import { Button, message } from 'antd';
+import { Button, message, type UploadProps } from 'antd';
 import React, { useRef, useState } from 'react';
-import 'moment/locale/zh-cn';
 import StoreSelect from '@/components/Select';
+import 'moment/locale/zh-cn';
+import dayjs from 'dayjs';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -45,67 +48,100 @@ const TableList: React.FC = () => {
       title: '数据日期',
       width: 160,
       fixed: 'left',
-      valueType: 'date',
       dataIndex: 'dataDate',
     },
     {
-      title: '主订单编号',
+      title: '内部订单号',
       width: 200,
+      hideInSearch: true,
+
+      dataIndex: 'internalOrderCode',
+    },
+    {
+      title: '线上订单号',
+      width: 200,
+      hideInSearch: true,
+
       dataIndex: 'parentOrderCode',
-      hideInSearch: true,
     },
+
     {
-      title: '子订单编号',
-      width: 200,
-      dataIndex: 'childOrderCode',
-      hideInSearch: true,
-    },
-    {
-      title: '状态',
+      title: '下单时间',
       width: 160,
-      dataIndex: 'status',
       hideInSearch: true,
-    },
-    {
-      title: '仓库',
-      width: 160,
-      dataIndex: 'deliveryWarehouse',
-      hideInSearch: true,
+
+      dataIndex: 'orderTime',
     },
     {
       title: '发货日期',
-      width: 160,
+      width: 200,
       hideInSearch: true,
-      valueType: 'date',
+
       dataIndex: 'deliveryTime',
     },
     {
-      title: '快递公司',
+      title: '已付金额',
       width: 180,
+      hideInSearch: true,
+
+      dataIndex: 'amountPaid',
+    },
+    {
+      title: '折扣金额',
+      width: 160,
+      hideInSearch: true,
+
+      dataIndex: 'discountAmount',
+    },
+    {
+      title: '状态',
+      width: 80,
+      hideInSearch: true,
+
+      dataIndex: 'status',
+    },
+    {
+      title: '快递公司',
+      width: 160,
       hideInSearch: true,
 
       dataIndex: 'expressCompany',
     },
     {
-      title: '交易日期',
-      width: 160,
-      hideInSearch: true,
-      valueType: 'date',
-      dataIndex: 'orderCommitTime',
-    },
-    {
-      title: '商品ID',
+      title: '快递单号',
       width: 100,
       hideInSearch: true,
 
-      dataIndex: 'goodsId',
+      dataIndex: 'expressCode',
     },
     {
-      title: '流量体裁',
-      width: 80,
+      title: '订单类型',
+      width: 120,
       hideInSearch: true,
 
-      dataIndex: 'trafficGenres',
+      dataIndex: 'orderType',
+    },
+    {
+      title: '订单商品重量',
+      width: 160,
+      hideInSearch: true,
+
+      dataIndex: 'orderGoodsWeight',
+    },
+
+    {
+      title: '发货仓',
+      width: 100,
+      hideInSearch: true,
+
+      dataIndex: 'deliveryWarehouse',
+    },
+    {
+      title: '商品总成交金额',
+      width: 100,
+      hideInSearch: true,
+
+      dataIndex: 'goodsTotalAmount',
     },
     {
       title: '商品编码',
@@ -115,92 +151,45 @@ const TableList: React.FC = () => {
       dataIndex: 'goodsCode',
     },
     {
-      title: '商品数量',
+      title: '商品名称',
       width: 100,
       hideInSearch: true,
 
-      dataIndex: 'goodsNum',
+      dataIndex: 'goodsName',
     },
     {
-      title: '订单应付金额',
+      title: '数量',
+      width: 160,
+      hideInSearch: true,
+
+      dataIndex: 'goodsQuantity',
+    },
+
+    {
+      title: '商品金额',
       width: 100,
       hideInSearch: true,
 
-      dataIndex: 'orderPayableAmount',
+      dataIndex: 'goodsAmount',
     },
     {
-      title: '实际平台补贴',
-      width: 100,
-      hideInSearch: true,
-
-      dataIndex: 'platDiscounts',
-    },
-    {
-      title: '流量体裁',
+      title: '成本价',
       width: 160,
       hideInSearch: true,
 
-      dataIndex: 'trafficGenres',
-    },
-    {
-      title: '实销',
-      width: 120,
-      dataIndex: 'actualSalesAmount',
-      hideInSearch: true,
-    },
-    {
-      title: '平台补贴扣费2%',
-      width: 160,
-      dataIndex: 'platSubsidyDeduction',
-      hideInSearch: true,
-    },
-    {
-      title: '平台服务费',
-      width: 160,
-      hideInSearch: true,
-
-      dataIndex: 'platServFee',
-    },
-
-    {
-      title: '达人佣金',
-      width: 100,
-      hideInSearch: true,
-
-      dataIndex: 'drFee',
-    },
-    {
-      title: '团长服务费',
-      width: 100,
-      hideInSearch: true,
-      dataIndex: 'leaderServFee',
-    },
-    {
-      title: '成本',
-      width: 160,
-      dataIndex: 'cost',
-      hideInSearch: true,
-    },
-    {
-      title: '邮资',
-      width: 160,
-      dataIndex: 'postage',
-      hideInSearch: true,
-    },
-    {
-      title: '利润',
-      width: 160,
-      dataIndex: 'profit',
-      hideInSearch: true,
+      dataIndex: 'costPrice',
     },
   ];
-  const createDaily: any = (values: any) => {
-    return createDailyRequest(values);
+  const props: UploadProps = {
+    name: 'file',
+    action: importWdt,
+    headers: {
+      authorization: 'multipart/form-data',
+    },
   };
   return (
     <PageContainer>
       <ProTable<API.RuleListItem, API.PageParams>
-        headerTitle={'日表'}
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -215,25 +204,19 @@ const TableList: React.FC = () => {
               handleModalOpen(true);
             }}
           >
-            生成日表
+            导入
           </Button>,
         ]}
-        request={dailyReports}
+        request={wdtPage}
         columns={columns}
         scroll={{ x: 1000 }}
       />
       <ModalForm
-        title={'生成日表'}
+        title={'导入旺店通数据'}
         width="400px"
         open={createModalOpen}
         onOpenChange={handleModalOpen}
         modalProps={{ destroyOnClose: true }}
-        onFinish={async (values) => {
-          await createDaily(values);
-          actionRef.current?.reload();
-          message.success('日表生成中，请等待一分钟后再次查询！');
-          return true;
-        }}
       >
         <ProForm.Group>
           <ProForm.Item
@@ -259,6 +242,30 @@ const TableList: React.FC = () => {
               },
             ]}
           />
+          <ProFormDependency name={['storeName', 'dataDate']}>
+            {({ storeName, dataDate }) => (
+              <ProFormUploadButton
+                fieldProps={{
+                  ...props,
+                  data: {
+                    storeName,
+                    dataDate: dayjs(dataDate).format('YYYY-MM-DD'),
+                  },
+                  onChange(info) {
+                    if (info.file.status === 'done') {
+                      message.success(`${info.file.name} 上传成功`);
+                      actionRef?.current?.reload();
+                    } else if (info.file.status === 'error') {
+                      message.error(`${info.file.name} 上传失败`);
+                    }
+                  },
+                }}
+                buttonProps={{ type: 'primary' }}
+                disabled={!storeName || !dataDate}
+                title="单击导入"
+              />
+            )}
+          </ProFormDependency>
         </ProForm.Group>
       </ModalForm>
     </PageContainer>

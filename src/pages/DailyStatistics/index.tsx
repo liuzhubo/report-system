@@ -1,4 +1,4 @@
-import { dailyReports, createDailyRequest } from '@/services/services';
+import { dailyStatisticReports, createDailyStatisticsRequest } from '@/services/services';
 import { UploadOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import {
@@ -49,124 +49,45 @@ const TableList: React.FC = () => {
       dataIndex: 'dataDate',
     },
     {
-      title: '主订单编号',
-      width: 200,
-      dataIndex: 'parentOrderCode',
-      hideInSearch: true,
-    },
-    {
-      title: '子订单编号',
-      width: 200,
-      dataIndex: 'childOrderCode',
-      hideInSearch: true,
-    },
-    {
-      title: '状态',
+      title: '订单数量',
       width: 160,
-      dataIndex: 'status',
+      dataIndex: 'orderNum',
       hideInSearch: true,
-    },
-    {
-      title: '仓库',
-      width: 160,
-      dataIndex: 'deliveryWarehouse',
-      hideInSearch: true,
-    },
-    {
-      title: '发货日期',
-      width: 160,
-      hideInSearch: true,
-      valueType: 'date',
-      dataIndex: 'deliveryTime',
-    },
-    {
-      title: '快递公司',
-      width: 180,
-      hideInSearch: true,
-
-      dataIndex: 'expressCompany',
-    },
-    {
-      title: '交易日期',
-      width: 160,
-      hideInSearch: true,
-      valueType: 'date',
-      dataIndex: 'orderCommitTime',
-    },
-    {
-      title: '商品ID',
-      width: 100,
-      hideInSearch: true,
-
-      dataIndex: 'goodsId',
-    },
-    {
-      title: '流量体裁',
-      width: 80,
-      hideInSearch: true,
-
-      dataIndex: 'trafficGenres',
-    },
-    {
-      title: '商品编码',
-      width: 160,
-      hideInSearch: true,
-
-      dataIndex: 'goodsCode',
-    },
-    {
-      title: '商品数量',
-      width: 100,
-      hideInSearch: true,
-
-      dataIndex: 'goodsNum',
     },
     {
       title: '订单应付金额',
-      width: 100,
-      hideInSearch: true,
-
+      width: 160,
       dataIndex: 'orderPayableAmount',
+      hideInSearch: true,
     },
     {
       title: '实际平台补贴',
-      width: 100,
-      hideInSearch: true,
-
-      dataIndex: 'platDiscounts',
-    },
-    {
-      title: '流量体裁',
       width: 160,
+      dataIndex: 'platDiscounts',
       hideInSearch: true,
-
-      dataIndex: 'trafficGenres',
     },
     {
       title: '实销',
-      width: 120,
+      width: 160,
       dataIndex: 'actualSalesAmount',
       hideInSearch: true,
     },
     {
       title: '平台补贴扣费2%',
       width: 160,
-      dataIndex: 'platSubsidyDeduction',
       hideInSearch: true,
+      dataIndex: 'platSubsidyDeduction',
     },
     {
       title: '平台服务费',
-      width: 160,
+      width: 180,
       hideInSearch: true,
-
       dataIndex: 'platServFee',
     },
-
     {
       title: '达人佣金',
-      width: 100,
+      width: 160,
       hideInSearch: true,
-
       dataIndex: 'drFee',
     },
     {
@@ -176,31 +97,37 @@ const TableList: React.FC = () => {
       dataIndex: 'leaderServFee',
     },
     {
+      title: '操作费',
+      width: 160,
+      hideInSearch: true,
+      dataIndex: 'handlingFee',
+    },
+    {
       title: '成本',
       width: 160,
-      dataIndex: 'cost',
       hideInSearch: true,
+      dataIndex: 'cost',
     },
     {
       title: '邮资',
       width: 160,
-      dataIndex: 'postage',
       hideInSearch: true,
+      dataIndex: 'postage',
     },
     {
       title: '利润',
       width: 160,
-      dataIndex: 'profit',
       hideInSearch: true,
+      dataIndex: 'profit',
     },
   ];
   const createDaily: any = (values: any) => {
-    return createDailyRequest(values);
+    return createDailyStatisticsRequest(values);
   };
   return (
     <PageContainer>
       <ProTable<API.RuleListItem, API.PageParams>
-        headerTitle={'日表'}
+        headerTitle={'日表统计表'}
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -215,15 +142,15 @@ const TableList: React.FC = () => {
               handleModalOpen(true);
             }}
           >
-            生成日表
+            生成日表统计表
           </Button>,
         ]}
-        request={dailyReports}
+        request={dailyStatisticReports}
         columns={columns}
         scroll={{ x: 1000 }}
       />
       <ModalForm
-        title={'生成日表'}
+        title={'生成日表统计表'}
         width="400px"
         open={createModalOpen}
         onOpenChange={handleModalOpen}
@@ -231,7 +158,7 @@ const TableList: React.FC = () => {
         onFinish={async (values) => {
           await createDaily(values);
           actionRef.current?.reload();
-          message.success('日表生成中，请等待一分钟后再次查询！');
+          message.success('日表统计表生成中，请等待一分钟后再次查询！');
           return true;
         }}
       >

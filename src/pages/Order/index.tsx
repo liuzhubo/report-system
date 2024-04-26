@@ -6,14 +6,15 @@ import {
   ProTable,
   ModalForm,
   ProFormDatePicker,
-  ProFormText,
   ProFormUploadButton,
   ProFormDependency,
   ProForm,
 } from '@ant-design/pro-components';
 import { Button, message, type UploadProps } from 'antd';
 import React, { useRef, useState } from 'react';
-import dayjs from 'dayjs'
+import StoreSelect from '@/components/Select';
+import dayjs from 'dayjs';
+import 'moment/locale/zh-cn';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -29,14 +30,38 @@ const TableList: React.FC = () => {
       renderText: (text: string, record: any, index: number) => `${index + 1}`,
     },
     {
+      title: '店铺名称',
+      width: 160,
+      fixed: 'left',
+      dataIndex: 'storeName',
+      renderFormItem: (item: any, options: any, form: any) => {
+        return (
+          <StoreSelect
+            onChange={(v: any) => {
+              form.setFieldValue('storeName', v);
+            }}
+          />
+        );
+      },
+    },
+    {
+      title: '数据日期',
+      width: 160,
+      fixed: 'left',
+      valueType: 'date',
+      dataIndex: 'dataDate',
+    },
+    {
       title: '主订单编号',
       width: 200,
       dataIndex: 'parentOrderCode',
+      hideInSearch: true,
     },
     {
       title: '子订单编号',
       width: 200,
       dataIndex: 'childOrderCode',
+      hideInSearch: true,
     },
     {
       title: '选购商品',
@@ -62,10 +87,12 @@ const TableList: React.FC = () => {
       width: 180,
 
       dataIndex: 'goodsId',
+      hideInSearch: true,
     },
     {
       title: '商品编码',
       width: 160,
+      hideInSearch: true,
 
       dataIndex: 'goodsCode',
     },
@@ -128,6 +155,8 @@ const TableList: React.FC = () => {
       title: '订单提交时间',
       width: 160,
       valueType: 'date',
+      hideInSearch: true,
+
       dataIndex: 'orderCommitTime',
     },
     {
@@ -141,20 +170,16 @@ const TableList: React.FC = () => {
     {
       title: '流量来源',
       width: 100,
+      hideInSearch: true,
 
       dataIndex: 'flowSource',
     },
     {
       title: '订单状态',
       width: 100,
+      hideInSearch: true,
 
       dataIndex: 'status',
-    },
-    {
-      title: '数据日期',
-      width: 160,
-      valueType: 'date',
-      dataIndex: 'dataDate',
     },
   ];
 
@@ -189,26 +214,30 @@ const TableList: React.FC = () => {
         columns={columns}
         scroll={{ x: 1000 }}
       />
-            <ModalForm
-        title={'导入团长服务费'}
+      <ModalForm
+        title={'导入抖音订单表'}
         width="400px"
         open={createModalOpen}
         onOpenChange={handleModalOpen}
         modalProps={{ destroyOnClose: true }}
+        onFinish={async () => {
+          actionRef.current?.reload();
+          handleModalOpen(false);
+        }}
       >
         <ProForm.Group>
-          <ProFormText
+          <ProForm.Item
+            label="店铺名称"
+            name="storeName"
             rules={[
               {
                 required: true,
                 message: '请填写店铺名称',
               },
             ]}
-            width="md"
-            name="storeName"
-            label="店铺名称"
-            placeholder={'请输入店铺名称'}
-          />
+          >
+            <StoreSelect style={{ width: '100%' }} placeholder={'请选择店铺名称'} />
+          </ProForm.Item>
           <ProFormDatePicker
             name="dataDate"
             width="md"

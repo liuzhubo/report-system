@@ -14,8 +14,7 @@ import {
 import { Button, message, type UploadProps } from 'antd';
 import React, { useRef, useState } from 'react';
 import 'moment/locale/zh-cn';
-import dayjs from 'dayjs'
-
+import dayjs from 'dayjs';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -31,145 +30,31 @@ const TableList: React.FC = () => {
       renderText: (text: string, record: any, index: number) => `${index + 1}`,
     },
     {
-      title: '主订单编号',
-      width: 200,
-      dataIndex: 'parentOrderCode',
-    },
-    {
-      title: '子订单编号',
-      width: 200,
-      dataIndex: 'childOrderCode',
-    },
-    {
-      title: '选购商品',
-      width: 160,
-      dataIndex: 'goodsName',
-    },
-    {
-      title: '商品规格',
-      width: 160,
-      dataIndex: 'goodsSpec',
-    },
-    {
-      title: '商品数量',
-      width: 80,
-
-      dataIndex: 'goodsNum',
-    },
-    {
-      title: '商品ID',
-      width: 180,
-
-      dataIndex: 'goodsId',
-    },
-    {
       title: '商品编码',
-      width: 160,
-
+      width: 200,
       dataIndex: 'goodsCode',
     },
     {
-      title: '订单应付金额',
-      width: 100,
-
-      dataIndex: 'orderPayableAmount',
+      title: '重量',
+      width: 160,
+      dataIndex: 'goodsWeight',
     },
     {
-      title: '流量体裁',
+      title: '数量',
       width: 80,
 
-      dataIndex: 'trafficGenres',
+      dataIndex: 'goodsQuantity',
     },
     {
-      title: '平台实际承担优惠金额',
-      width: 160,
+      title: '单价',
+      width: 180,
 
-      dataIndex: 'platDiscounts',
+      dataIndex: 'goodsPrice',
     },
     {
-      title: '省',
+      title: '剩余库存数量',
       width: 100,
-
-      dataIndex: 'province',
-    },
-    {
-      title: '市',
-      width: 100,
-
-      dataIndex: 'city',
-    },
-    {
-      title: '区',
-      width: 100,
-
-      dataIndex: 'county',
-    },
-    {
-      title: '街道',
-      width: 160,
-
-      dataIndex: 'street',
-    },
-    {
-      title: '是否修改过地址',
-      width: 120,
-      dataIndex: 'addrChangeFlag',
-    },
-    {
-      title: '订单提交时间',
-      width: 160,
-      valueType: 'dateTime',
-      dataIndex: 'orderCommitTime',
-    },
-    {
-      title: '商家备注',
-      width: 160,
-
-      dataIndex: 'merchantRemark',
-    },
-
-    {
-      title: '流量来源',
-      width: 100,
-
-      dataIndex: 'flowSource',
-    },
-    {
-      title: '订单状态',
-      width: 100,
-
-      dataIndex: 'status',
-    },
-    {
-      title: '数据日期',
-      width: 160,
-      valueType: 'dateTime',
-      dataIndex: 'dataDate',
-    },
-    {
-      title: '创建人',
-      width: 100,
-
-      dataIndex: 'createUser',
-    },
-    {
-      title: '创建时间',
-      width: 160,
-      valueType: 'dateTime',
-      dataIndex: 'createTime',
-    },
-
-    {
-      title: '更新人',
-      width: 100,
-
-      dataIndex: 'updateUser',
-    },
-    {
-      title: '更新时间',
-      width: 160,
-      valueType: 'dateTime',
-      dataIndex: 'updateTime',
+      dataIndex: 'remainQuantity',
     },
   ];
 
@@ -206,7 +91,7 @@ const TableList: React.FC = () => {
         columns={columns}
         scroll={{ x: 1000 }}
       />
-            <ModalForm
+      <ModalForm
         title={'导入团长服务费'}
         width="400px"
         open={createModalOpen}
