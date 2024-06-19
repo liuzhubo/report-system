@@ -62,12 +62,12 @@ export default [
     path: 'commission',
     component: './Commission',
   },
-  {
-    name: '邮资规则',
-    icon: 'table',
-    path: 'postage',
-    component: './Postage',
-  },
+  // {
+  //   name: '邮资规则',
+  //   icon: 'table',
+  //   path: 'postage',
+  //   component: './Postage',
+  // },
   // {
   //   name: '聚水潭',
   //   icon: 'table',

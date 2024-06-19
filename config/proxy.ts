@@ -28,9 +28,8 @@ export default {
    */
   dev: {
     '/api': {
-      target: 'http://8.147.107.155:8888',
+      target: 'http://8.147.107.155:7001',
       changeOrigin: true,
-      pathRewrite: { '^/api': '' },
     },
   },
   test: {

@@ -1,8 +1,8 @@
 import { request } from '@umijs/max';
 
-/** 抖音订单表分页 /api/dmp/dy-order-page */
+/** 抖音订单表分页 /api/erpOrders */
 export async function dyOrders(params: any) {
-  return request<any>('/api/dmp/dy-order-page', {
+  return request<any>('/api/erpOrders', {
     method: 'GET',
     params: {
       ...params,
@@ -11,9 +11,9 @@ export async function dyOrders(params: any) {
     },
   }).then((res) => {
     return {
-      data: res?.data?.records || [],
+      data: res?.data?.list || [],
       success: res?.success,
-      total: res?.data?.total,
+      total: res?.data?.pagination?.total,
     };
   });
 }
@@ -238,7 +238,7 @@ export async function createDailyStatisticsRequest(params: any) {
 }
 
 /** 导入抖音订单 /api/dmp/import-dy-order*/
-export const importDyOrders = '/api/dmp/import-dy-order';
+export const importDyOrders = '/api/erpOrders/import';
 
 /** 导入团长服务费 /api/dmp/import-leader-serv-fee*/
 export const importServiceCharge = '/api/dmp/import-leader-serv-fee';

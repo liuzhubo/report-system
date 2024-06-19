@@ -1,24 +1,15 @@
-import { stockPage, importServiceCharge } from '@/services/services';
+import { stockPage } from '@/services/services';
 import { UploadOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import {
-  PageContainer,
-  ProTable,
-  ModalForm,
-  ProFormDatePicker,
-  ProFormText,
-  ProFormUploadButton,
-  ProFormDependency,
-  ProForm,
-} from '@ant-design/pro-components';
-import { Button, message, type UploadProps } from 'antd';
+import { PageContainer, ProTable, ModalForm, EditableProTable } from '@ant-design/pro-components';
+import { Button } from 'antd';
 import React, { useRef, useState } from 'react';
 import 'moment/locale/zh-cn';
-import dayjs from 'dayjs';
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [createModalOpen, handleModalOpen] = useState<boolean>(false);
+  const [dataSource, setDataSource] = useState<any>([]);
 
   const columns: ProColumns<API.RuleListItem>[] = [
     {
@@ -58,18 +49,64 @@ const TableList: React.FC = () => {
     },
   ];
 
-  const props: UploadProps = {
-    name: 'file',
-    action: importServiceCharge,
-    headers: {
-      authorization: 'multipart/form-data',
+  const formTableColumns: ProColumns<any>[] = [
+    {
+      title: '商品编码',
+      dataIndex: 'product_code',
     },
-  };
-
+    {
+      title: '重量',
+      dataIndex: 'weight',
+    },
+    {
+      title: '进货价',
+      dataIndex: 'buying_price',
+    },
+    {
+      title: '箱规',
+      dataIndex: 'box_gauge',
+    },
+    {
+      title: '商品数量',
+      dataIndex: 'product_quantity',
+    },
+    {
+      title: '品牌方',
+      dataIndex: 'brand_side',
+    },
+    {
+      title: '供货方',
+      dataIndex: 'supplier',
+    },
+    {
+      title: '箱规',
+      dataIndex: 'box_gauge',
+    },
+    {
+      title: '箱规',
+      dataIndex: 'box_gauge',
+    },
+    {
+      title: '箱规',
+      dataIndex: 'box_gauge',
+    },
+    {
+      title: '箱规',
+      dataIndex: 'box_gauge',
+    },
+    {
+      title: '操作',
+      valueType: 'option',
+      width: 250,
+      render: () => {
+        return null;
+      },
+    },
+  ];
   return (
     <PageContainer>
       <ProTable<API.RuleListItem, API.PageParams>
-        headerTitle={'抖音订单表'}
+        headerTitle={'库存表'}
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -84,7 +121,7 @@ const TableList: React.FC = () => {
               handleModalOpen(true);
             }}
           >
-            导入
+            入库
           </Button>,
         ]}
         request={stockPage}
@@ -92,61 +129,51 @@ const TableList: React.FC = () => {
         scroll={{ x: 1000 }}
       />
       <ModalForm
-        title={'导入团长服务费'}
-        width="400px"
+        title={'入库'}
+        width="800px"
         open={createModalOpen}
         onOpenChange={handleModalOpen}
         modalProps={{ destroyOnClose: true }}
       >
-        <ProForm.Group>
-          <ProFormText
-            rules={[
-              {
-                required: true,
-                message: '请填写店铺名称',
-              },
-            ]}
-            width="md"
-            name="storeName"
-            label="店铺名称"
-            placeholder={'请输入店铺名称'}
-          />
-          <ProFormDatePicker
-            name="dataDate"
-            width="md"
-            label="数据日期"
-            rules={[
-              {
-                required: true,
-                message: '请选择数据日期',
-              },
-            ]}
-          />
-          <ProFormDependency name={['storeName', 'dataDate']}>
-            {({ storeName, dataDate }) => (
-              <ProFormUploadButton
-                fieldProps={{
-                  ...props,
-                  data: {
-                    storeName,
-                    dataDate: dayjs(dataDate).format('YYYY-MM-DD'),
-                  },
-                  onChange(info) {
-                    if (info.file.status === 'done') {
-                      message.success(`${info.file.name} 上传成功`);
-                      actionRef?.current?.reload();
-                    } else if (info.file.status === 'error') {
-                      message.error(`${info.file.name} 上传失败`);
-                    }
-                  },
+        <EditableProTable<any>
+          headerTitle="可编辑表格"
+          columns={formTableColumns}
+          rowKey="id"
+          scroll={{
+            x: 960,
+          }}
+          value={dataSource}
+          onChange={setDataSource}
+          recordCreatorProps={{
+            newRecordType: 'dataSource',
+            record: () => ({
+              id: Date.now(),
+            }),
+          }}
+          toolBarRender={() => {
+            return [
+              <Button
+                type="primary"
+                key="save"
+                onClick={() => {
+                  // dataSource 就是当前数据，可以调用 api 将其保存
+                  console.log(dataSource);
                 }}
-                buttonProps={{ type: 'primary' }}
-                disabled={!storeName || !dataDate}
-                title="单击导入"
-              />
-            )}
-          </ProFormDependency>
-        </ProForm.Group>
+              >
+                保存数据
+              </Button>,
+            ];
+          }}
+          editable={{
+            type: 'multiple',
+            actionRender: (row, config, defaultDoms) => {
+              return [defaultDoms.delete];
+            },
+            onValuesChange: (record, recordList) => {
+              setDataSource(recordList);
+            },
+          }}
+        />
       </ModalForm>
     </PageContainer>
   );
